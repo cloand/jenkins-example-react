@@ -1,7 +1,7 @@
 pipeline{
     agent any
     options{
-        buildDiscarder:(logRotator(numToKeepStr:'5'))
+        buildDiscarder(logRotator(numToKeepStr:'5'))
     }
     environment{
         HEROKU_TEST_API = credentials('heroku-test-api')
