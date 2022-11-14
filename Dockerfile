@@ -7,6 +7,7 @@ RUN npm ci
 
 COPY public/ public
 COPY src/ src
+RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 RUN npm run build
 
 FROM httpd:alpine
