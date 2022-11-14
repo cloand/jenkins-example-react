@@ -12,6 +12,10 @@ pipeline {
     APP_NAME = 'resct-app-2011'
   }
   stages {
+     stage('Initialize'){
+        def dockerHome = tool 'docker'
+        env.PATH = "${dockerHome}/bin:${env.PATH}"
+    }
     stage('Build') {
       steps {
         sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
