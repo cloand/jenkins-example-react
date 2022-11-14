@@ -7,7 +7,7 @@ pipeline {
     HEROKU_API_KEY = credentials('heroku-api-key')
     IMAGE_NAME = 'cloand/jenkins-example-react'
     IMAGE_TAG = 'latest'
-    APP_NAME = ''
+    APP_NAME = 'resct-app-2011'
   }
   stages {
     stage('Build') {
