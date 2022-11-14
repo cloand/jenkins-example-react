@@ -12,7 +12,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build --privileged -t $IMAGE_NAME:$IMAGE_TAG .'
+        echo 'i am running'
       }
     }
    
