@@ -1,44 +1,44 @@
-pipeline {
-  agent any
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
-  }
-  environment {
-    HEROKU_API_KEY = credentials('heroku-api-key')
-    IMAGE_NAME = 'darinpope/jenkins-example-react'
-    IMAGE_TAG = 'latest'
-    APP_NAME = 'jenkins-example-react'
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
-      }
+pipeline{
+    agent any
+    options{
+        buildDiscarder:(logRotator(numToKeepStr:'5'))
     }
-    stage('Login') {
-      steps {
-        sh 'echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com'
-      }
+    environment{
+        HEROKU_TEST_API = credentials('heroku-test-api')
+        IMAGE_NAME = 'testing01101/react-app-2011'
+        IMAGE_TAG = 'latest'
+        APP_NAME =  'react-app-2011'
     }
-    stage('Push to Heroku registry') {
-      steps {
-        sh '''
-          docker tag $IMAGE_NAME:$IMAGE_TAG registry.heroku.com/$APP_NAME/web
-          docker push registry.heroku.com/$APP_NAME/web
-        '''
-      }
+    stages{
+        stage('build'){
+            steps{
+                sh 'docker build -t $IMAGENAME:$IMAGETAG .'
+            }
+        }
+        stage('login'){
+            steps{
+                sh 'scho $HEROKU_API_KEY | --username=_--password-stdin registry.heroku.com'
+            }
+        }
+        stage('push heroku to registry'){
+            steps{
+                sh '''
+                    docker tag $IMAGE_NAME:$IMAGE_TAG registry.heroku.com/$APP_NAME/web
+                    docker push registry.heroku.com/$APP_NAME/web
+                '''
+            }
+        }
+        stage('release the image'){
+            steps{
+                sh '''
+                    heroku container:release web --app=$APP_NAME
+                '''
+            }
+        }
     }
-    stage('Release the image') {
-      steps {
-        sh '''
-          heroku container:release web --app=$APP_NAME
-        '''
-      }
+    post{
+        always{
+            sh 'docker logout'
+        }
     }
-  }
-  post {
-    always {
-      sh 'docker logout'
-    }
-  }
 }
