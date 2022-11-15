@@ -32,7 +32,7 @@ pipeline {
       steps{
       withEnv(['PATH+HEROKU=/opt/homebrew/bin/heroku']) {
             sh '''
-              heroku container:release web --app=$APP_NAME
+              docker release registry.heroku.com/$APP_NAME/web
             '''
           }
       }
