@@ -9,6 +9,7 @@ pipeline {
     IMAGE_TAG = 'latest'
     APP_NAME = 'react-app-2012'
   }
+  withEnv(['PATH+HEROKU=/opt/homebrew/bin/heroku']) {
   stages {
     stage('Build') {
       steps {
@@ -28,15 +29,15 @@ pipeline {
         '''
       }
     }
-      withEnv(['PATH+HEROKU=/opt/homebrew/bin/heroku']) {
+      
     stage('Release the image') {
       steps{
             sh '''
               heroku container:release web --app=$APP_NAME
             '''
           }
-      }
     }
+  }
   }
   post {
     always {
