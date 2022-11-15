@@ -33,7 +33,7 @@ pipeline {
         withEnv(['PATH+HEROKU=/opt/homebrew/bin/heroku']) {
           step{
             sh '''
-              heroku container:release web --app $APP_NAME
+              heroku container:release web --app=$APP_NAME
             '''
           }
          }
