@@ -29,14 +29,12 @@ pipeline {
       }
     }
     stage('Release the image') {
-      steps {
         withEnv(['PATH+HEROKU=/opt/homebrew/bin/heroku']) {
-          step{
+          steps{
             sh '''
               heroku container:release web --app=$APP_NAME
             '''
           }
-         }
       }
     }
   }
